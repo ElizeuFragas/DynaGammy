@@ -16,6 +16,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "tempscheduler.h"
+#include <QKeyEvent>
 
 MainWindow::MainWindow(): ui(new Ui::MainWindow), tray_icon(new QSystemTrayIcon(this))
 {
@@ -25,9 +26,19 @@ MainWindow::MainWindow(): ui(new Ui::MainWindow), tray_icon(new QSystemTrayIcon(
 	tray_temp_toggle = new QAction("Auto temperature", this);
 	tray_temp_toggle->setCheckable(true);
 
-	new QShortcut(QKeySequence(Qt::Key_Escape), this, SLOT(close()));
-
 	ui->setupUi(this);
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Escape) {
+        savePos();
+        hide();
+        tray_wnd_toggle->setText(show_txt);
+        event->accept();
+    } else {
+        QMainWindow::keyPressEvent(event);
+    }
 }
 
 void MainWindow::init()
@@ -91,7 +102,7 @@ void MainWindow::setWindowProperties(QIcon &icon)
 	} else {
 		setPos();
 		if (cfg["wnd_show_on_startup"].get<bool>()) {
-			show();
+			// show();
 			tray_wnd_toggle->setText(hide_txt);
 		}
 	}

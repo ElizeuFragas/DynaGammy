@@ -77,6 +77,7 @@ private:
 
 	void createTrayIcon(QIcon &icon);
 	void checkTray();
+  void keyPressEvent(QKeyEvent *event) override;
 	bool systray_available = false;
 
 	QAction *tray_wnd_toggle;
