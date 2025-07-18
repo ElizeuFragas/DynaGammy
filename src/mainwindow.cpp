@@ -86,7 +86,7 @@ void MainWindow::setWindowProperties(QIcon &icon)
 	if (x == -1 && y == -1) {
 		move(QGuiApplication::screens().at(0)->geometry().center() - frameGeometry().center());
 		// Assume first start, show the window
-		show();
+		hide();
 		tray_wnd_toggle->setText(hide_txt);
 	} else {
 		setPos();
